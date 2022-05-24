@@ -1,0 +1,63 @@
+@using Domain.Enums
+@model WebApp.Models.Projects.ProjectListViewModel
+
+@{
+    Layout = "_Layout";
+}
+
+<h2>List of projects</h2>
+<a class="btn btn-primary" asp-action="Add">Add project</a>
+
+<form method="get" asp-action="List">
+    <div class="form-group">
+        <label asp-for="ProjectSearchArguments.FirstName" class="form-label">Name</label>
+        <input type="text" asp-for="ProjectSearchArguments.FirstName" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="ProjectSearchArguments.StartDate" class="form-label">Start date</label>
+        <input type="date" asp-for="ProjectSearchArguments.StartDate" class="form-control"/>
+    </div>
+    <div>
+        <label asp-for="ProjectSearchArguments.EndDate" class="form-label">End date</label>
+        <input type="date" asp-for="ProjectSearchArguments.EndDate" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="ProjectSearchArguments.Priority" class="form-label">Priority</label>
+        <select asp-for="ProjectSearchArguments.Priority" class="form-control"
+                asp-items="Html.GetEnumSelectList<ProjectPriorityEnum>()">
+            <option value="">Choose priority...</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="ProjectSearchArguments.Client" class="form-label">Client name</label>
+        <input type="text" asp-for="ProjectSearchArguments.Client" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="ProjectSearchArguments.ExecutiveCompanyName" class="form-label">Executive company name</label>
+        <input type="text" asp-for="ProjectSearchArguments.ExecutiveCompanyName" class="form-control"/>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Apply filter</button>
+    <a asp-action="List" class="btn btn-danger mt-3">Reset filter</a>
+</form>
+<table class="table table-hover">
+    <thead>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Priority</th>
+    <th>Actions</th>
+    </thead>
+    <tbody>
+    @foreach (var project in Model.Projects)
+    {
+        <tr>
+            <td>@project.Id</td>
+            <td>@project.Name</td>
+            <td>@project.Priority</td>
+            <td>
+                <a class="btn btn-info" role="button" asp-action="Details" asp-route-id="@project.Id">Details</a>
+                <a class="btn btn-info" role="button" asp-action="Edit" asp-route-id="@project.Id">Edit</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

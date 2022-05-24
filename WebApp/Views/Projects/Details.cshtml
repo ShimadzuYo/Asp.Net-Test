@@ -1,0 +1,66 @@
+@model WebApp.Models.Projects.ProjectDetailsViewModel
+
+@{
+    ViewBag.Title = "Projects list";
+    Layout = "_Layout";
+    var project = Model.Project;
+}
+
+<h2>Project details</h2>
+<button class="btn btn-danger" id="delete-btn">Delete</button>
+<a asp-action="Edit" asp-route-id="@project.Id" class="btn btn-info">Edit</a>
+
+
+<dl class="row">
+    <dt class="col-sm-3">Name</dt>
+    <dd class="col-sm-9">@project.Name</dd>
+
+    <dt class="col-sm-3">Start date</dt>
+    <dd class="col-sm-9">@project.StartDate</dd>
+
+    <dt class="col-sm-3">End date</dt>
+    <dd class="col-sm-9">@project.EndDate</dd>
+
+    <dt class="col-sm-3">Priority</dt>
+    <dd class="col-sm-9">@project.Priority</dd>
+
+    <dt class="col-sm-3">Client name</dt>
+    <dd class="col-sm-9">@project.Client</dd>
+
+    <dt class="col-sm-3">Executive company name </dt>
+    <dd class="col-sm-9">@project.ExecutiveCompanyName</dd>
+    
+    <dt class="col-sm-3">Team lead name </dt>
+    <dd class="col-sm-9">
+        <a asp-controller="Employees" asp-action="Details" asp-route-id="@project.ProjectLeadId">
+            @project.ProjectLead.FullName()
+        </a>
+    </dd>
+    
+    <dt>Employees</dt>
+    <dd>
+        <dl>
+            @foreach (var employee in project.Employees.Select(x => x.Employee))
+            {
+                <dd>@employee.FullName()</dd>
+            }
+        </dl>
+        
+    </dd>
+    
+    
+</dl>
+
+<script>
+ const deleteBtn = document.getElementById("delete-btn");
+ deleteBtn.onclick = function(event) {
+     const isOk = confirm('Are you sure about that?');
+     if (isOk) {
+         fetch("@Url.Action("Delete")" + "/@project.Id", {
+             method: 'DELETE'})
+             .then((response) => {
+                window.location.replace("@Url.Action("List")");
+             });
+     }
+ };
+</script>

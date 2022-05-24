@@ -1,0 +1,61 @@
+@model WebApp.Models.Employees.EmployeeListViewModel
+
+@{
+    Layout = "_Layout";
+}
+
+
+<h2>List of employees</h2>
+<a class="btn btn-primary" asp-action="Add">Add an employee</a>
+
+<form method="get" asp-action="List">
+    <div class="form-group">
+        <label asp-for="EmployeeSearchArguments" class="form-label">Id</label>
+        <input type="number" asp-for="EmployeeSearchArguments.Id" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="EmployeeSearchArguments.FirstName" class="form-label">First Name</label>
+        <input type="text" asp-for="EmployeeSearchArguments.FirstName" class="form-control"/>
+    </div>
+    <div>
+        <label asp-for="EmployeeSearchArguments.MiddleName" class="form-label">Middle Name</label>
+        <input type="text" asp-for="EmployeeSearchArguments.MiddleName" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="EmployeeSearchArguments.LastName" class="form-label">Last Name</label>
+        <input type="text" asp-for="EmployeeSearchArguments.LastName" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="EmployeeSearchArguments.Email" class="form-label">Email</label>
+        <input type="text" asp-for="EmployeeSearchArguments.Email" class="form-control"/>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Apply filter</button>
+    <a asp-action="List" class="btn btn-danger mt-3">Reset filter</a>
+</form>
+
+
+<h2>List of employees</h2>
+<a class="btn btn-primary" asp-action="Add">Add employee</a>
+<table class="table table-hover">
+    <thead>
+    <th>Id</th>
+    <th>First Name</th>
+    <th>Second Name</th>
+    <th>Actions</th>
+
+    </thead>
+    <tbody>
+    @foreach (var employee in Model.Employees)
+    {
+        <tr>
+            <td>@employee.Id</td>
+            <td>@employee.FirstName</td>
+            <td>@employee.LastName</td>
+            <td>
+                <a class="btn btn-info" role="button" asp-action="Details" asp-route-id="@employee.Id">Details</a>
+                <a class="btn btn-info" role="button" asp-action="Edit" asp-route-id="@employee.Id">Edit</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
